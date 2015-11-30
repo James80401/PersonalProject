@@ -11,7 +11,7 @@ $(document).on('ready', function(){
     var ticketStatus = [];
     var ticketURL = [];
     var facebookRSVP = [];
-    var bandPic = [];
+    var bandName = []
 
   //above is music ID variable to put whatever user input Artists ID
 
@@ -29,14 +29,13 @@ $(document).on('ready', function(){
   //   console.log(stateInfo.val())
   // });
   // saveSearchData();
-function addElement (ShowN, CityN, VenueN, TxSts, TxURL, FBVP) {
+function addElement (BandN, ShowN, CityN, VenueN, TxSts, TxURL, FBVP) {
   // create a new div element
   // and give it some content
   var newVenue = document.createElement("div");
     newVenue.id='newVenueId';
-    var BandPic = document.createElement("img");
-    BandPic.id='BandPic';
-    BandPic.src=bandPic;
+    var BandName = document.createElement("p");
+    BandName.id='BandName';
     var topRight = document.createElement("div");
     topRight.id='topRight';
     var VenueP = document.createElement("p");
@@ -49,11 +48,15 @@ function addElement (ShowN, CityN, VenueN, TxSts, TxURL, FBVP) {
     btmRight.id='btmRight';
     var VenueTS = document.createElement("p");
     VenueTS.id='VenueTS';
-    var VenueURL = document.createElement("button");
+    var VenueURL = document.createElement("a");
     VenueURL.id='VenueURL';
-    VenueURL.href=VenueURL;
-    var VenueFB = document.createElement("button");
+    VenueURL.setAttribute('a' , href=ticketLink);
+    VenueURL.setAttribute('href', ticketLink);
+
+    var VenueFB = document.createElement("a");
     VenueFB.id='VenueFB';
+    VenueFB.setAttribute('a', href=facebookLink);
+    VenueFB.setAttribute('href', facebookLink);
 
   var newVenueName = document.createTextNode(venueName);
   var newCityName = document.createTextNode(cityName);
@@ -61,11 +64,12 @@ function addElement (ShowN, CityN, VenueN, TxSts, TxURL, FBVP) {
   var curTicketStatus = document.createTextNode(ticketStatus);
   var curTicketURL = document.createTextNode(ticketURL);
   var fbookRSVP = document.createTextNode(facebookRSVP);
+  var newBandName = document.createTextNode(bandName);
 //-----------------------------------------
-  newVenue.appendChild(BandPic);
   newVenue.appendChild(topRight);
   newVenue.appendChild(btmRight);
 
+  topRight.appendChild(BandName);
   topRight.appendChild(VenueP);
   topRight.appendChild(VenueC);
   topRight.appendChild(VenueT);
@@ -74,6 +78,8 @@ function addElement (ShowN, CityN, VenueN, TxSts, TxURL, FBVP) {
   btmRight.appendChild(VenueFB);
 
 
+
+  BandName.appendChild(newBandName)
 
   VenueP.appendChild(newVenueName);
 
@@ -92,13 +98,14 @@ function addElement (ShowN, CityN, VenueN, TxSts, TxURL, FBVP) {
   // add the newly created element and its content into the DOM
   $(newVenue).insertBefore('.content')
 }
-
+console.log(cityInput);
 //------------------------------------------
 button.on('click', function(){
+  console.log(cityInput.val());
   //event.preventDefault();
   $.ajax({//http:api.bandsintown.com/events/search.json?location=Boston,MA&page=2&app_id=YOUR_APP_ID
-          url: 'http://api.bandsintown.com/events/search.json?location=Boston,MA&page=2&app_id=PersonalProject',
-          //'http://api.bandsintown.com/artists/Skrillex/events.json?api_version=2.0&app_id=PersonalProject',
+          url: 'http://api.bandsintown.com/events/search.json?location=Boston,MA&page=1+&app_id=PersonalProject',
+//'http://api.bandsintown.com/events/search.json?location=Boston,MA&page=2&app_id=PersonalProject'
           dataType: 'jsonp',
           method: "GET",
           success: function(data) {
@@ -106,14 +113,15 @@ button.on('click', function(){
             {
             // console.log(data);
             // console.log(bandInput.val());
-            showTime = data[i].datetime;
-            cityName = data[i].venue.city+ ", "+ data[i].venue.region;
+            // showTime = data[i].datetime;
+            // cityName = data[i].venue.city+ ", "+ data[i].venue.region;
             venueName = data[i].venue.name;
             ticketStatus = data[i].ticket_status;
             ticketURL = 'BUY NOW';//data[i].ticket_url;
             facebookRSVP = 'RSVP';//data[i].facebook_rsvp_url;
-            bandPic = data[i]['artists'][0]['image_url'];//[0].image_url;
-            console.log(bandPic);
+            ticketLink=data[i].ticket_url;
+            facebookLink=data[i].url;
+            bandName=data[i]['artists'][0]['name'];
             // console.log(showTime);
             // console.log(cityName);
             // console.log(venueName);

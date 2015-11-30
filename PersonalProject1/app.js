@@ -88,7 +88,7 @@ function addElement (ShowN, CityN, VenueN, TxSts, TxURL, FBVP) {
 //------------------------------------------
 button.on('click', function(){
   $.ajax({
-          url: 'http://api.bandsintown.com/artists/'+bandInput.val()+'/events.json?api_version=2.0&app_id=PersonalProject&callback=showEvents',
+          url: 'https://api.bandsintown.com/artists/'+bandInput.val()+'/events.json?api_version=2.0&app_id=PersonalProject&callback=showEvents',
           //'http://api.bandsintown.com/artists/Skrillex/events.json?api_version=2.0&app_id=PersonalProject',
           dataType: 'jsonp',
           method: "GET",
@@ -113,3 +113,8 @@ button.on('click', function(){
       });
     })
 });
+//search all shows by city 50 results per page results
+//http://api.bandsintown.com/events/search.json?location=Boston,MA&page=2&app_id=YOUR_APP_ID
+
+// search band by date
+//http://api.bandsintown.com/events/search.json?artists[]=Crystal+Castlesk&date=2012-09-01,2012-12-01&app_id=YOUR_APP_ID
